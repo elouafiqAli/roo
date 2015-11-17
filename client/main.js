@@ -1,34 +1,34 @@
 // This code only runs on the client
-Meteor.subscribe("tasks");
+Meteor.subscribe("messages");
 
 Template.body.helpers({
-    tasks: function () {
+    messages: function () {
         if (Session.get("hideCompleted")) {
-            // If hide completed is checked, filter tasks
-            return Tasks.find({checked: {$ne: true}}, {sort: {createdAt: -1}});
+            // If hide completed is checked, filter messages
+            return Conversation.find({checked: {$ne: true}}, {sort: {createdAt: -1}});
         } else {
-            // Otherwise, return all of the tasks
-            return Tasks.find({}, {sort: {createdAt: -1}});
+            // Otherwise, return all of the messages
+            return Conversation.find({}, {sort: {createdAt: -1}});
         }
     },
     hideCompleted: function () {
         return Session.get("hideCompleted");
     },
     incompleteCount: function () {
-        return Tasks.find({checked: {$ne: true}}).count();
+        return Conversation.find({checked: {$ne: true}}).count();
     }
 });
 
 Template.body.events({
-    "submit .new-task": function (event) {
+    "submit .new-message": function (event) {
         // Prevent default browser form submit
         event.preventDefault();
 
         // Get value from form element
         var text = event.target.text.value;
 
-        // Insert a task into the collection
-        Meteor.call("addTask", text);
+        // Insert a message into the collection
+        Meteor.call("addMessage", text);
 
         // Clear form
         event.target.text.value = "";
@@ -38,22 +38,16 @@ Template.body.events({
     }
 });
 
-Template.task.helpers({
-    isOwner: function () {
-        return this.owner === Meteor.userId();
+Template.message.helpers({
+    isNotOwner: function () {
+        return !(this.owner === Meteor.userId());
     }
 });
 
-Template.task.events({
+Template.message.events({
     "click .toggle-checked": function () {
         // Set the checked property to the opposite of its current value
         Meteor.call("setChecked", this._id, ! this.checked);
-    },
-    "click .delete": function () {
-        Meteor.call("deleteTask", this._id);
-    },
-    "click .toggle-private": function () {
-        Meteor.call("setPrivate", this._id, ! this.private);
     }
 });
 

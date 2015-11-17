@@ -1,5 +1,5 @@
-Meteor.publish("tasks", function () {
-    return Tasks.find({
+Meteor.publish("messages", function () {
+    return Conversation.find({
         $or: [
             { private: {$ne: true} },
             { owner: this.userId }
@@ -8,45 +8,35 @@ Meteor.publish("tasks", function () {
 });
 
 Meteor.methods({
-    addTask: function (text) {
+    addMessage: function (text) {
         // Make sure the user is logged in before inserting a message
         if (! Meteor.userId()) {
             throw new Meteor.Error("not-authorized");
         }
 
-        Tasks.insert({
+        Conversation.insert({
             text: text,
             createdAt: new Date(),
             owner: Meteor.userId(),
             username: Meteor.user().username
         });
     },
-    deleteTask: function (taskId) {
-        var task = Tasks.findOne(taskId);
-        if (task.private && task.owner !== Meteor.userId()) {
-            // If the task is private, make sure only the owner can delete it
+    deleteMessage: function (messageId) {
+        var message = Conversation.findOne(messagId);
+        if (message.private && message.owner !== Meteor.userId()) {
+            // If the message is private, make sure only the owner can delete it
             throw new Meteor.Error("not-authorized");
         }
 
-        Tasks.remove(taskId);
+        Conversation.remove(messageId);
     },
     setChecked: function (taskId, setChecked) {
-        var task = Tasks.findOne(taskId);
+        var task = Conversation.findOne(taskId);
         if (task.private && task.owner !== Meteor.userId()) {
             // If the task is private, make sure only the owner can check it off
             throw new Meteor.Error("not-authorized");
         }
 
-        Tasks.update(taskId, { $set: { checked: setChecked} });
-    },
-    setPrivate: function (taskId, setToPrivate) {
-        var task = Tasks.findOne(taskId);
-
-        // Make sure only the task owner can make a task private
-        if (task.owner !== Meteor.userId()) {
-            throw new Meteor.Error("not-authorized");
-        }
-
-        Tasks.update(taskId, { $set: { private: setToPrivate } });
+        Conversation.update(taskId, { $set: { checked: setChecked} });
     }
 });

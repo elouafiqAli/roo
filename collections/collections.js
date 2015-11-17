@@ -1,1 +1,1 @@
-Tasks = new Mongo.Collection("tasks");
+Conversation = new Mongo.Collection("messages");
