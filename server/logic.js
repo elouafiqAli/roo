@@ -1,3 +1,10 @@
+serviceDiscovery = {
+    server: 'http://127.0.0.1:3001/meteor',
+    origin: '127.0.0.1',
+    port: 3001,
+    type: 'mongoDB'
+};
+
 Meteor.publish("messages", function () {
     return Conversation.find({
         $or: [
@@ -7,28 +14,23 @@ Meteor.publish("messages", function () {
     });
 });
 
+//Cluster.connect(serviceDiscovery.server);
+//Cluster.register("chat");
+Cluster.allowPublicAccess("chat");
 Meteor.methods({
-    addMessage: function (text) {
+    ping: function(){
+        console.log('sweet!');
+    },
+    addMessage: function (text, userId, username) {
         // Make sure the user is logged in before inserting a message
-        if (! Meteor.userId()) {
-            throw new Meteor.Error("not-authorized");
-        }
 
+        console.log([text, userId, username]);
         Conversation.insert({
             text: text,
             createdAt: new Date(),
-            owner: Meteor.userId(),
-            username: Meteor.user().username
+            owner: userId,
+            username: username
         });
-    },
-    deleteMessage: function (messageId) {
-        var message = Conversation.findOne(messagId);
-        if (message.private && message.owner !== Meteor.userId()) {
-            // If the message is private, make sure only the owner can delete it
-            throw new Meteor.Error("not-authorized");
-        }
-
-        Conversation.remove(messageId);
     },
     setChecked: function (taskId, setChecked) {
         var task = Conversation.findOne(taskId);

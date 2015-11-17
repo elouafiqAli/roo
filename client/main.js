@@ -1,4 +1,5 @@
 // This code only runs on the client
+var chatConnection = Cluster.discoverConnection("chat");
 Meteor.subscribe("messages");
 
 Template.body.helpers({
@@ -28,7 +29,9 @@ Template.body.events({
         var text = event.target.text.value;
 
         // Insert a message into the collection
-        Meteor.call("addMessage", text);
+        chatConnection.call("addMessage", text, Meteor.userId(), Meteor.user().username, function(err, result){
+            if (err) throw err;
+        });
 
         // Clear form
         event.target.text.value = "";
@@ -47,7 +50,9 @@ Template.message.helpers({
 Template.message.events({
     "click .toggle-checked": function () {
         // Set the checked property to the opposite of its current value
-        Meteor.call("setChecked", this._id, ! this.checked);
+        chatConnection.call("setChecked", this._id, ! this.checked, function(err, result){
+            if (err) throw err;
+        });
     }
 });
 
