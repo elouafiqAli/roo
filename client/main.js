@@ -1,7 +1,7 @@
 // This code only runs on the client
 var chatConnection = Cluster.discoverConnection("chat");
 Meteor.subscribe("messages");
-
+$("<link rel='icon' href='/favicon_ma.ico' type='image/x-icon\'>").appendTo('head');
 Template.body.helpers({
     messages: function () {
         if (Session.get("hideCompleted")) {

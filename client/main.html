@@ -1,22 +1,16 @@
 <head>
-  <title>Todo List</title>
+  <title>Avito</title>
 </head>
 
 <body>
   <div class="container">
     <header>
-      <h1>Conversation({{incompleteCount}})</h1>
-
-      <label class="hide-completed">
-        <input type="checkbox" checked="{{hideCompleted}}" />
-        Hide Completed Messages
-      </label>
 
       {{> loginButtons}}
 
       {{#if currentUser}}
         <form class="new-message">
-          <input type="text" name="text" placeholder="..." />
+          <input type="text" name="text" placeholder="Type your messages here..." />
         </form>
       {{/if}}
     </header>
@@ -32,9 +26,9 @@
 <template name="message">
   <li class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}">
     {{#if isNotOwner}}
-        <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
-    {{/if}}
-
-    <span class="text"><strong>{{username}}</strong> - {{text}}</span>
+        <span class="text"><strong class="notOwner">{{username}}</strong> - {{text}}</span>
+    {{else}}
+      <span class="text"><strong class="owner">{{username}}</strong> - {{text}}</span>
+      {{/if}}
   </li>
 </template>

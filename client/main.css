@@ -1,8 +1,8 @@
 /* CSS declarations go here */
 body {
   font-family: sans-serif;
-  background-color: #315481;
-  background-image: linear-gradient(to bottom, #315481, #918e82 100%);
+  background-image: url("searchbox_bg.png");
+  background-repeat: repeat;
   background-attachment: fixed;
 
   position: absolute;
@@ -25,16 +25,27 @@ body {
 }
 
 header {
-  background: #d2edf4;
-  background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
-  padding: 20px 15px 15px 15px;
+  background: #fff;
+  padding: 60px 25px 25px 25px;
   position: relative;
+  border-bottom: 4px solid #FF9800;
 }
 
 #login-buttons {
   display: block;
+  padding: 1em;
+  background-color: #03A9F4;
+  color: white;
+  border-radius: 0.5em;
+  text-decoration: none;
 }
-
+#login-buttons a, .accounts-dialog a{
+  text-decoration: none;
+}
+a{
+  text-decoration: none;
+  color: white;
+}
 h1 {
   font-size: 1.5em;
   margin: 0;
@@ -69,7 +80,7 @@ ul {
   background: white;
 }
 
-.delete {
+/*.delete {
   float: right;
   font-weight: bold;
   background: none;
@@ -77,24 +88,30 @@ ul {
   border: none;
   position: relative;
 }
-
+*/
 li {
   position: relative;
   list-style: none;
   padding: 15px;
-  border-bottom: #eee solid 1px;
 }
-
+.owner{
+  color: #FF9800;
+}
+.notOwner{
+  color: #03A9F4;
+}
 li .text {
   margin-left: 10px;
 }
 
 li.checked {
   color: #888;
+  display: none;
 }
 
 li.checked .text {
   text-decoration: line-through;
+  display: none;
 }
 
 li.private {
@@ -122,5 +139,14 @@ header .hide-completed {
 
   .new-message input {
     padding-bottom: 5px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
   }
 }
+#login-buttons{
+  float: right;
+  color: #03A9F4;
+  font-style: none;
+}
+
