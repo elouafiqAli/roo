@@ -23,6 +23,7 @@ Template.body.helpers({
 Template.body.events({
     "submit .new-message": function (event) {
         // Prevent default browser form submit
+
         event.preventDefault();
 
         // Get value from form element
