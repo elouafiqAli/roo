@@ -8,3 +8,5 @@ meteor-platform
 accounts-ui
 accounts-password
 meteorhacks:cluster
+percolatestudio:segment.io
+dfischer:akismet
